@@ -43,6 +43,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/budgets/{budget}/categories',
         [CategoryController::class, 'store']
     )->name('categories.store');
+    Route::post(
+        '/budgets/{budget}/categories',
+        [CategoryController::class, 'update']
+    )->name('categories.update');
 
     // Set up routes
     Route::get(

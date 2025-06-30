@@ -18,6 +18,8 @@ type Category = {
   type: 'income' | 'expense' | 'savings' | 'investment' | 'debt';
 };
 
+const ALL_TYPES = ['income','expense','savings','investment','debt'] as const;
+
 type Props = {
   budget: Budget;
   categories: Category[];
@@ -26,43 +28,54 @@ type Props = {
 export default function SetUp({ budget, categories }: Props) {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title={`Set Up – ${budget.name}`} />
+        <Head title={`Set Up – ${budget.name}`} />
 
-      <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-semibold">{budget.name}</h1>
-          <Button
-            onClick={() =>
-              window.location.href = route('categories.create', budget.id)
-            }
-          >
-            Add new category
-          </Button>
-        </div>
+        <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
+            <div className="flex justify-between items-center">
+                <h1 className="text-2xl font-semibold">{budget.name}</h1>
+                <Button
+                    onClick={() =>
+                    window.location.href = route('categories.create', budget.id)
+                    }
+                >
+                    Add new category
+                </Button>
+            </div>
 
-        {categories.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {categories.map((cat) => (
-              <div
-                key={cat.id}
-                className="flex justify-between items-center p-4 border rounded-lg hover:shadow transition"
-              >
-                <div>
-                  <p className="font-medium">{cat.name}</p>
-                  <p className="text-sm text-gray-500 capitalize">{cat.type}</p>
+            {categories.length > 0 ? (
+                <div className="flex flex-col gap-4">
+                    {ALL_TYPES.map((type) => {
+                        const catsOfType = categories.filter((c) => c.type === type);
+
+                        if (catsOfType.length === 0) return null;
+
+                        return (
+                            <section className="flex flex-col gap-2" key={type}>
+                                <h2 className="text-xl font-semibold capitalize">{type}</h2>
+                                {catsOfType.map((c) => (
+                                    <div
+                                        key={c.id}
+                                        className="flex justify-between items-center p-4 border rounded-lg hover:shadow transition"
+                                    >
+                                        <div>
+                                            <p className="font-medium">{c.name}</p>
+                                            <p className="text-sm text-gray-500 capitalize">{c.type}</p>
+                                        </div>
+                                        <Link href={route('categories.update', [budget.id, c.id])}>
+                                            <Button variant="outline" size="sm">
+                                                Edit
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                ))}
+                            </section>
+                        );
+                        })}
                 </div>
-                {/* <Link href={route('categories.edit', [budget.id, cat.id])}>
-                  <Button variant="outline" size="sm">
-                    Edit
-                  </Button>
-                </Link> */}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-gray-500">No categories yet.</p>
-        )}
-      </div>
+                ) : (
+                    <p className="text-center text-gray-500">No categories yet.</p>
+                )}
+        </div>
     </AppLayout>
   );
 }
