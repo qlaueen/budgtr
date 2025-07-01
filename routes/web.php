@@ -45,7 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         [CategoryController::class, 'store']
     )->name('categories.store');
     Route::delete(
-        '/budgets/{budget}/categories',
+        '/budgets/{budget}/categories/{category}',
         [CategoryController::class, 'destroy']
     )->name('categories.destroy');
     Route::put(
@@ -62,6 +62,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Methods routes (nested under a budget)
     Route::resource('methods', MethodController::class)
      ->only(['index','create','store','show','update','destroy']);
+    Route::delete(
+        '/budgets/{budget}/methods/{method}',
+        [MethodController::class, 'destroy']
+    )->name('methods.destroy');
+    Route::get(
+        '/budgets/{budget}/methods/create',
+        [MethodController::class, 'create']
+    )->name('methods.create');
 });
 
 require __DIR__.'/auth.php';

@@ -48,8 +48,8 @@ class CategoryController extends Controller
         Route::get('/budgets/{budget}/categories', [CategoryController::class,'index'])
             ->name('categories.index');
 
-        return Redirect::route('dashboard', $category->budget_id)
-        ->with('success', 'Category created successfully');
+        return Redirect::route('setup', $category->budget_id)
+            ->with('success', 'Category created successfully');
     }
 
     public function create(Budget $budget)
@@ -93,15 +93,11 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Budget $budget, Category $category)
     {
-        $category = Category::where('id', $id)
-            ->whereHas('budget', fn($q) => $q->where('user_id', Auth::id()))
-            ->firstOrFail();
-
         $category->delete();
 
-        return Redirect::route('categories.index', ['budget_id' => $category->budget_id])
-            ->with('success', 'Category deleted successfully');
+        return Redirect::route('setup', $budget->id)
+                   ->with('success', 'Category deleted.');
     }
 }

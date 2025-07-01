@@ -1,6 +1,5 @@
 import { Head } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -11,8 +10,10 @@ import {
 import { MoreHorizontal } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-  { title: 'Dashboard', href: '/dashboard' },
+const breadcrumbs = (budget_id: number, budget_name: string) => [
+    { title: 'Dashboard', href: '/dashboard' },
+    { title: 'Budgets', href: `/budgets` },
+    { title: `${budget_name}`, href: `/budgets/${budget_id}` },
 ];
 
 type Budget = {
@@ -35,7 +36,7 @@ export default function Budget({ budget }: Props) {
     ]
 
   return (
-    <AppLayout breadcrumbs={breadcrumbs}>
+    <AppLayout breadcrumbs={breadcrumbs(budget.id, budget.name)}>
         <Head title={budget.name} />
 
         <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">

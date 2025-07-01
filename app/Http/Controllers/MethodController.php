@@ -46,7 +46,8 @@ class MethodController extends Controller
             'is_credit_card' => $validated['is_credit_card']
         ]);
 
-        return Redirect::route('setup', ['budget_id' => $method->budget_id])
+
+        return Redirect::route('setup', $method->budget_id)
             ->with('success', 'Method created successfully');
     }
 
@@ -92,15 +93,11 @@ class MethodController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Budget $budget, Method $method)
     {
-        $method = Method::where('id', $id)
-            ->whereHas('budget', fn($q) => $q->where('user_id', Auth::id()))
-            ->firstOrFail();
-
         $method->delete();
 
-        return Redirect::route('methods.index', ['budget_id' => $method->budget_id])
-            ->with('success', 'Method deleted successfully');
+        return Redirect::route('setup', $budget->id)
+                   ->with('success', 'Method deleted.');
     }
 }

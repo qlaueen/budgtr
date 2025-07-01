@@ -15,10 +15,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Pencil } from 'lucide-react';
 
-const breadcrumbs = (budget_id: number) => [
+const breadcrumbs = (budget_id: number, budget_name: string) => [
     { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Budget', href: `/budgets/${budget_id}` },
+    { title: 'Budgets', href: `/budgets` },
+    { title: `${budget_name}`, href: `/budgets/${budget_id}` },
     { title: 'Set up', href: `/setup` }
+
 ];
 
 type Budget = { id: number; name: string };
@@ -38,7 +40,7 @@ export default function SetUp({ budget, categories, methods }: Props) {
   const [editingMethod,   setEditingMethod]   = useState<Method|null>(null);
 
   return (
-    <AppLayout breadcrumbs={breadcrumbs(budget.id)}>
+    <AppLayout breadcrumbs={breadcrumbs(budget.id, budget.name)}>
         <Head title={`Set Up – ${budget.name}`} />
         <h1 className="text-2xl p-4 font-semibold">{budget.name}</h1>
 
@@ -71,6 +73,7 @@ export default function SetUp({ budget, categories, methods }: Props) {
                                             <p className="text-sm text-gray-500 capitalize">{c.type}</p>
                                         </div>
                                         <Button
+                                            type="button"
                                             variant="outline"
                                             size="icon"
                                             onClick={() => setEditingCategory(c)}
@@ -245,6 +248,7 @@ function EditCategoryForm({ budgetId, category, onSuccess }: EditCategoryProps) 
             <Button variant="outline" onClick={onSuccess}>Cancel</Button>
             <Button type="submit" disabled={processing}>Save</Button>
             <Button
+                type="button"
                 variant="destructive"
                 onClick={handleDelete}
             >
@@ -319,6 +323,7 @@ function EditMethodForm({ budgetId, method, onSuccess }: EditMethodProps) {
             <Button variant="outline" onClick={onSuccess}>Cancel</Button>
             <Button type="submit" disabled={processing}>Save</Button>
             <Button
+                type="button"
                 variant="destructive"
                 onClick={handleDelete}
             >
