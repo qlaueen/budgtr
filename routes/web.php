@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MethodController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +44,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/budgets/{budget}/categories',
         [CategoryController::class, 'store']
     )->name('categories.store');
-    Route::post(
+    Route::delete(
         '/budgets/{budget}/categories',
+        [CategoryController::class, 'destroy']
+    )->name('categories.destroy');
+    Route::put(
+        '/budgets/{budget}/categories/{category}',
         [CategoryController::class, 'update']
     )->name('categories.update');
 
@@ -53,6 +58,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/budgets/{budget}/setup',
         [BudgetController::class, 'setup']
     )->name('setup');
+
+    // Methods routes (nested under a budget)
+    Route::resource('methods', MethodController::class)
+     ->only(['index','create','store','show','update','destroy']);
 });
 
 require __DIR__.'/auth.php';

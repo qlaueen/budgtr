@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Budget extends Model
 {
@@ -25,4 +25,8 @@ class Budget extends Model
         return $this->hasMany(Category::class);
     }
 
+    public function methods()
+    {
+        return $this->hasMany(Method::class);
+    }
 }

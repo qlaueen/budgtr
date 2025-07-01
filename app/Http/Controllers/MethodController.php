@@ -35,17 +35,26 @@ class MethodController extends Controller
        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'budget_id' => 'required|exists:budgets,id',
-            'type' => 'required|string|in:debt,expense,bill,savings,investing,income',
+            'is_active' => 'required|bool',
+            'is_credit_card' => 'required|bool'
         ]);
 
         $method = Method::create([
             'name' => $validated['name'],
             'budget_id' => $validated['budget_id'],
-            'type' => $validated['type'],
+            'is_active' => $validated['is_active'],
+            'is_credit_card' => $validated['is_credit_card']
         ]);
 
-        return Redirect::route('methods.index', ['budget_id' => $method->budget_id])
+        return Redirect::route('setup', ['budget_id' => $method->budget_id])
             ->with('success', 'Method created successfully');
+    }
+
+    public function create(Budget $budget)
+    {
+        return Inertia::render('new-method', [
+            'budget' => $budget,
+        ]);
     }
 
     /**
@@ -65,23 +74,19 @@ class MethodController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Method $method)
     {
-        $method = Method::where('id', $id)
-            ->whereHas('budget', fn($q) => $q->where('user_id', Auth::id()))
-            ->firstOrFail();
-
+        // no need to re-validate budget_id here
         $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'budget_id' => 'sometimes|required|exists:budgets,id',
-            'type' => 'sometimes|required|string|in:debt,expense,bill,savings,investing,income',
+            'name'           => 'required|string|max:255',
+            'is_active'      => 'required|boolean',
+            'is_credit_card' => 'required|boolean',
         ]);
 
         $method->update($validated);
 
-        return Inertia::render('method', [
-            'method' => $method,
-        ]);
+        // just go back (Inertia will intercept and merge the flash)
+        return back()->with('success', 'Method updated.');
     }
 
     /**

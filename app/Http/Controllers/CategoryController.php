@@ -76,23 +76,18 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Budget $budget, Category $category)
     {
-        $category = Category::where('id', $id)
-            ->whereHas('budget', fn($q) => $q->where('user_id', Auth::id()))
-            ->firstOrFail();
-
         $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'budget_id' => 'sometimes|required|exists:budgets,id',
-            'type' => 'sometimes|required|string|in:debt,expense,bill,savings,investing,income',
+        'name' => 'required|string|max:255',
+        'type' => 'required|in:income,expense,savings,investment,debt',
         ]);
 
         $category->update($validated);
 
-        return Inertia::render('category', [
-            'category' => $category,
-        ]);
+        // Option A: go back to the same URL (/budgets/{budget}/setup)
+        return Redirect::route('setup', $budget->id)
+            ->with('success', 'Category updated.');
     }
 
     /**

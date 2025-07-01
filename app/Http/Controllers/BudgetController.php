@@ -93,10 +93,12 @@ class BudgetController extends Controller
     public function setup(Budget $budget)
     {
         $categories = $budget->categories()->orderBy('name')->get();
+        $methods = $budget->methods()->orderBy('name')->get();
 
         return Inertia::render('setup', [
             'budget'     => $budget,
             'categories' => $categories,
+            'methods'    => $methods,
         ]);
     }
 }
