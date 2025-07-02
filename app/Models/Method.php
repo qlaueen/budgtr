@@ -17,7 +17,7 @@ class Method extends Model
         'is_credit_card'
     ];
 
-    public function expenses(): HasMany
+    public function expenses()
     {
         return $this->hasMany(Expense::class);
     }

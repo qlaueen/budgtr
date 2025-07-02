@@ -28,7 +28,7 @@ type Props = {
 export default function Budget({ budget }: Props) {
     const cards = [
         { label: 'Set up', routeName: 'setup' },
-        { label: 'Expense tracker', routeName: 'dashboard' },
+        { label: 'Expense Tracker', routeName: 'expenses.index' },
         { label: 'Monthly Overview', routeName: 'dashboard' },
         { label: 'Yearly Overview', routeName: 'dashboard' },
         { label: 'Bills Calendar', routeName: 'dashboard' },
