@@ -107,7 +107,7 @@ export default function Expenses({ budget, categories, methods, expenses }: Prop
                 <h1 className="text-2xl p-4 font-semibold">{budget.name} - Expense Tracker</h1>
 
                 <form onSubmit={handleSubmit} className="mb-6 p-6 bg-card rounded-lg shadow">
-                    <div className="flex flex-wrap items-end gap-4">
+                    <div className="flex flex-wrap items-center gap-4">
                         <div className="flex-1 min-w-[200px] flex flex-col">
                             <Input
                                 id="description"
