@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\MethodController;
 
 /*
@@ -61,7 +62,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Methods routes (nested under a budget)
     Route::resource('methods', MethodController::class)
-     ->only(['index','create','store','show','update','destroy']);
+        ->only(['index','create','store','show','update','destroy']);
     Route::delete(
         '/budgets/{budget}/methods/{method}',
         [MethodController::class, 'destroy']
@@ -70,6 +71,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/budgets/{budget}/methods/create',
         [MethodController::class, 'create']
     )->name('methods.create');
+
+    // Expenses routes
+    Route::get(
+        '/budgets/{budget}/expenses',
+        [ExpenseController::class,'index']
+    )->name('expenses.index');
+    Route::get(
+        '/budgets/{budget}/expenses/create',
+        [ExpenseController::class, 'create']
+    )->name('expenses.create');
+    Route::post(
+        '/budgets/{budget}/expenses',
+        [ExpenseController::class, 'store']
+    )->name('expenses.store');
+    Route::put(
+        '/budgets/{budget}/expenses/{expense}',
+        [ExpenseController::class, 'update']
+    )->name('expenses.update');
+    Route::delete(
+        '/budgets/{budget}/expenses/{expense}',
+        [ExpenseController::class, 'destroy']
+    )->name('expenses.destroy');
+
 });
 
 require __DIR__.'/auth.php';

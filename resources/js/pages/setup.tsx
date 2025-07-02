@@ -3,7 +3,6 @@ import { Head, useForm } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-// import { Inertia } from '@inertiajs/inertia';
 import {
     Select,
     SelectTrigger,
@@ -41,7 +40,7 @@ export default function SetUp({ budget, categories, methods }: Props) {
 
   return (
     <AppLayout breadcrumbs={breadcrumbs(budget.id, budget.name)}>
-        <Head title={`Set Up – ${budget.name}`} />
+        <Head title={`Set Up: ${budget.name}`} />
         <h1 className="text-2xl p-4 font-semibold">{budget.name}</h1>
 
         <div className="flex gap-6">
