@@ -29,7 +29,7 @@ export default function Budget({ budget }: Props) {
     const cards = [
         { label: 'Set up', routeName: 'setup' },
         { label: 'Expense Tracker', routeName: 'expenses.index' },
-        { label: 'Monthly Overview', routeName: 'dashboard' },
+        { label: 'Monthly Overview', routeName: 'monthly.index' },
         { label: 'Yearly Overview', routeName: 'dashboard' },
         { label: 'Bills Calendar', routeName: 'dashboard' },
         { label: 'Savings', routeName: 'dashboard' },

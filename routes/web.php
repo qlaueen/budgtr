@@ -6,6 +6,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\MethodController;
+use App\Http\Controllers\MonthlyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +94,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/budgets/{budget}/expenses/{expense}',
         [ExpenseController::class, 'destroy']
     )->name('expenses.destroy');
+
+    // Monthly overview routes
+    Route::get(
+        '/budgets/{budget}/monthly',
+        [MonthlyController::class,'index']
+    )->name('monthly.index');
+
 
 });
 
